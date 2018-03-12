@@ -10,15 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180308210315) do
+ActiveRecord::Schema.define(version: 20180312190758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "prices", force: :cascade do |t|
+    t.date "date"
+    t.decimal "price", precision: 12, scale: 4
+    t.decimal "growth", precision: 7, scale: 4
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "stock_id"
+    t.index ["stock_id"], name: "index_prices_on_stock_id"
+  end
+
   create_table "stocks", force: :cascade do |t|
     t.string "ticker"
     t.string "name"
-    t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -41,4 +50,5 @@ ActiveRecord::Schema.define(version: 20180308210315) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "prices", "stocks"
 end
