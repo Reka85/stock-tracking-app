@@ -1,0 +1,19 @@
+<h1><%= @stock.name %></h1>
+
+<% unless @prices.empty? %>
+  <table>
+    <tr>
+      <th>Price</th>
+      <th>Growth</th>
+      <th>Date</th>
+    </tr>
+    <% @prices.each do |pr| %>
+    <tr>
+      <td><%= pr.price %></td>
+      <td><%= pr.growth ? pr.growth : "no data" %></td>
+      <td><%= pr.date %></td>
+    </tr>
+    <% end %>
+  </table>
+<% end %>
+<%= link_to "Back to all stocks", stocks_path %>
