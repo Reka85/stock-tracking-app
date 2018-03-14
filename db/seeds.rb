@@ -12,7 +12,11 @@ stocks = StockQuote::Stock.quote("aapl,amzn,msft,tsla")
 p "creating stocks.."
 
 stocks.each do |stock|
-  new_stock = Stock.new(ticker: stock.t, name: stock.name)
+  new_stock = Stock.new(ticker: stock.t,
+                        name: stock.name,
+                        address: stock.summary[0]["address"],
+                        webpage: stock.summary[0]["url"],
+                        overview: stock.summary[0]["overview"])
   new_stock.save!
 end
 
