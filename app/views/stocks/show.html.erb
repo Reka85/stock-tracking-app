@@ -16,4 +16,5 @@
     <% end %>
   </table>
 <% end %>
+<%= content_tag :div, "", id: "chart", data: { prices: @prices } %>
 <%= link_to "Back to all stocks", stocks_path %>
