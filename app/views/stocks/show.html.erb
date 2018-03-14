@@ -5,20 +5,31 @@
 <p><strong>Company overview:</strong> <%= @stock.overview %></p>
 
 <% unless @prices.empty? %>
-  <table>
-    <tr>
-      <th>Price</th>
-      <th>Growth</th>
-      <th>Date</th>
-    </tr>
-    <% @prices.each do |pr| %>
-    <tr>
-      <td><%= pr.price %></td>
-      <td><%= pr.growth ? pr.growth : "no data" %></td>
-      <td><%= pr.date %></td>
-    </tr>
-    <% end %>
-  </table>
+  <div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th colspan="1"></th>
+            <th>Price</th>
+            <th>Growth</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @prices.each do |pr| %>
+          <tr>
+            <td colspan="1"></td>
+            <td><%= pr.price %></td>
+            <td><%= pr.growth ? pr.growth : "no data" %></td>
+            <td><%= pr.date %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 <% end %>
 <%= content_tag :div, "", id: "chart", data: { prices: @prices } %>
 <%= link_to "Back to all stocks", stocks_path %>
