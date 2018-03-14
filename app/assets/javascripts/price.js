@@ -10,7 +10,7 @@ var drawChart = function() {
           width  = 600 - margin.left - margin.right,
           height = 450 - margin.top - margin.bottom;
       var JSONData = $("#chart").data("prices");
-      console.log(!JSONData)
+
       if (!JSONData) {
         return;
       }
@@ -28,7 +28,7 @@ var drawChart = function() {
 
       var y = d3.scaleLinear()
         .range([height, 0])
-        .domain([d3.min(data, priceFn)-10, d3.max(data, priceFn)+10])
+        .domain([d3.min(data, priceFn)-5, d3.max(data, priceFn)])
 
       var price_line = d3.line()
           .x(function(d) { return x(d.date); })
