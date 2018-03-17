@@ -4,6 +4,7 @@ class StocksController < ApplicationController
   end
 
   def show
+    @stocks = Stock.all
     @stock = Stock.find(params[:id])
     @prices = @stock.prices
   end
