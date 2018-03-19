@@ -1,10 +1,16 @@
 <h1 class="text-center">All stocks</h1>
-<% @stocks.each do |stock| %>
-<div class="row">
-  <div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
-    <div class="stock-index text-center">
-      <%= link_to stock.name, stock_path(stock) %>
-    </div>
+<% if @stocks.any? %>
+  <div id="stocks">
+    <% @stocks.each do |stock| %>
+      <div class="row">
+        <div class="col-xs-8 col-xs-offset-2 col-sm-3 col-sm-offset-0">
+          <div class="stock-index text-center">
+            <%= link_to stock.name, stock_path(stock) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
-</div>
+  <% else %>
+    <p>No available stocks yet.</p>
 <% end %>

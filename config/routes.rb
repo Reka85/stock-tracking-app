@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   authenticate :user, lambda { |u| u.admin } do
     mount Sidekiq::Web => '/sidekiq'
   end
-  resources :stocks, only: [:index, :show]
+  root to: "stocks#index"
+  resources :stocks, only: [:show]
 end
