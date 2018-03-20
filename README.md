@@ -1,5 +1,5 @@
 # README
-
+ # # # goole finance api end point is shut down :( looking for alternatives to replace it # # #
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
