@@ -62,7 +62,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'sidekiq'
 gem 'sidekiq-failures'
-gem 'stock_quote'
+gem 'stock_quote', '~>2.0.0'
 gem 'bootstrap-sass'
 gem 'jquery-rails'
 gem 'd3-rails', '4.1.0'

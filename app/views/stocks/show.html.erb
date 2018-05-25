@@ -1,7 +1,7 @@
 <h1><%= @stock.name %></h1>
 <h3>(<%= @stock.ticker %>)</h3>
-<p><strong>Address:</strong> <%= @stock.address %></p>
-<p><strong>Webpage:</strong> <%= link_to @stock.webpage, @stock.webpage, :target => "_blank" %></p>
+<p><strong>Industry:</strong> <%= @stock.industry %></p>
+<p><strong>Webpage:</strong> <%= link_to @webpage_short, @stock.webpage, :target => "_blank" %></p>
 <p><strong>Company overview:</strong> <%= @stock.overview %></p>
 
 <% unless @prices.empty? %>

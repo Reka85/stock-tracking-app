@@ -7,5 +7,6 @@ class StocksController < ApplicationController
     @stocks = Stock.all
     @stock = Stock.find(params[:id])
     @prices = @stock.prices
+    @webpage_short = @stock.webpage.match(/(?<=\/\/).+/)
   end
 end
