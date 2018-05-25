@@ -4,7 +4,7 @@ RSpec.feature "ListingStocks", type: :feature do
   let!(:stock) { Stock.create(ticker: "TEST",
                             name: "test",
                             webpage: "http://test.com",
-                            address: "1 Test way, PALO ALTO, CA 95014-0645, United States",
+                            industry: "Test industry",
                             overview: "a" * 20) }
 
   let!(:price1) { Price.create(date: Date.today, price: 20, growth: 1.2, stock: stock) }
@@ -14,9 +14,9 @@ RSpec.feature "ListingStocks", type: :feature do
     aggregate_failures do
       expect(page).to have_current_path(stock_path(stock))
       expect(page).to have_content(stock.ticker)
-      expect(page).to have_content(stock.address)
+      expect(page).to have_content(stock.industry)
       expect(page).to have_content(stock.overview)
-      expect(page).to have_link(stock.webpage)
+      expect(page).to have_link(stock.webpage.match(/(?<=\/\/).+/))
       #testing contents of the table
       expect(page).to have_selector("tbody tr", count: 1)
       table = find(:css, "table")

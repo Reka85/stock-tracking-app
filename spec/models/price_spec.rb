@@ -5,7 +5,7 @@ RSpec.describe Price, type: :model do
   let(:stock) { Stock.create(ticker: "TEST",
                             name: "test",
                             webpage: "http://test.com",
-                            address: "1 Test way, PALO ALTO, CA 95014-0645, United States",
+                            industry: "Test industry",
                             overview: "a" * 20) }
 
   it "is valid with a price, a growth, a stock and a date" do

@@ -4,13 +4,13 @@ RSpec.feature "ListingStocks", type: :feature do
   let!(:stock_1) { Stock.create(ticker: "TEST_1",
                             name: "test1",
                             webpage: "http://test1.com",
-                            address: "1 Test way, PALO ALTO, CA 95014-0645, United States",
+                            industry: "Test Industry",
                             overview: "a" * 20) }
 
   let!(:stock_2) { Stock.create(ticker: "TEST_2",
                             name: "test2",
                             webpage: "http://test2.com",
-                            address: "1 Test way, PALO ALTO, CA 95014-0645, United States",
+                            industry: "Test Industry",
                             overview: "a" * 20) }
   scenario "all users have access to stocks home page" do
     visit root_path
