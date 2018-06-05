@@ -1,15 +1,16 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
+
 Price.destroy_all
 Stock.destroy_all
+ExchangeDate.destroy_all
 
 p "calling api"
 
 #fetching general data about the companies
 stocks_names = ["aapl", "amzn", "msft", "tsla"]
 stock_objs = []
-#stocks = StockQuote::Stock.quote("aapl,amzn,msft,tsla")
+
 stocks_names.each do |stock_name|
   stock = StockQuote::Stock.company(stock_name)
   stock_objs << stock
@@ -18,7 +19,6 @@ end
 p "creating stocks.."
 
 stock_objs.each do |stock|
-  p stock
   if stock && stock.response_code == 200
     new_stock = Stock.new(ticker: stock.symbol,
                           name: stock.company_name,
@@ -26,41 +26,45 @@ stock_objs.each do |stock|
                           webpage: stock.website,
                           overview: stock.description)
     new_stock.save!
+  else
+    p "Stocks could not be created. Error code: #{stock.response_code}"
   end
 end
 
 p "stocks created"
 
-# all_stocks = Stock.all
+p "creating dates"
 
-# p "creating today's prices.."
+#returns the stock's daily high, low, open, close price of the last month
+chart_data = StockQuote::Stock.batch("chart", stocks_names, "1m")
 
-# stocks.each_with_index do |stock, index|
-#   new_price = Price.new(price: stock.l, growth: stock.c, date: Date.today, stock: all_stocks[index])
-#   new_price.save!
-# end
+if chart_data.first.response_code == 200 && !chart_data.first.chart.empty?
+  chart_data.first.chart.each do |day|
+    date = ExchangeDate.new(date: day["date"])
+    date.save!
+  end
+else
+  p "Exchange dates could not be created. Error code: #{chart_data.first.response_code}"
+end
+p "dates created"
 
-# p "creating last 5 day's prices.."
+p "creating prices"
+chart_data.each do |month|
+  if month.response_code == 200 && !month.chart.empty?
+    month.chart.each do |day|
+      price = Price.new(high: day["high"],
+                        low: day["low"],
+                        open: day["open"],
+                        close: day["close"])
+      price.exchange_date = ExchangeDate.where(date: day["date"])[0]
+      price.stock = Stock.where(ticker: month.symbol)[0]
+      price.save!
+    end
+  else
+    p "Price could not be created. Error code: #{month.response_code}"
+  end
+end
 
-# stock_symbols = ["aapl","amzn","msft","tsla"]
+p "prices created"
 
-
-# last_5_days_all_stocks = []
-
-# # we request the 5 day history of each stock (no stock market on weekends and holidays!)
-# # the data sent back (stock_history) is a hash like: {:symbol=>"amzn", :history=>[{:date=>"12-Mar-18", :open=>1592.6,...
-# # it does not send back growth
-# stock_symbols.each do |symbol|
-#   stock_history = StockQuote::Stock.history(symbol, 5.days.ago, Date.today)
-#   last_5_days_all_stocks << stock_history
-# end
-
-# last_5_days_all_stocks.each do |stock|
-#   stock_name = Stock.find_by(ticker: stock[:symbol].upcase)
-#   stock[:history].each do |day|
-#     price = Price.new(price: day[:close], date: Date.parse(day[:date]), stock: stock_name)
-#     price.save!
-#   end
-# end
-
-# p "prices created"
+p "end of seed"
