@@ -7,5 +7,6 @@ RSpec.describe ExchangeDate, type: :model do
   end
 
   it { is_expected.to validate_presence_of(:date)}
+  it { is_expected.to validate_uniqueness_of(:date) }
   it { is_expected.to have_many :prices }
 end
