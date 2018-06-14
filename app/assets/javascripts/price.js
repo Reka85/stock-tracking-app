@@ -19,7 +19,7 @@ var drawChart = function() {
 
   var parseTime = d3.timeParse("%Y-%m-%d");
 
-  var priceFn = function(d) { return d.price }
+  var priceFn = function(d) { return d.close }
   var dateFn = function(d) { return parseTime(d.date) }
 
   var x = d3.scaleTime()
@@ -32,11 +32,11 @@ var drawChart = function() {
 
   var price_line = d3.line()
     .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.price);  });
+    .y(function(d) { return y(d.close);  });
 
   data.forEach(function(d) {
     d.date = parseTime(d.date);
-    d.price = +d.price;
+    d.close = +d.close;
   });
 
   var svg = d3.select("#chart").append("svg")
@@ -89,5 +89,5 @@ var drawChart = function() {
     .style("text-anchor", "middle")
     .style("font-size", "18px")
     .style("text-decoration", "underline")
-    .text("Price changes of the last days")
+    .text("Price changes of the last 8 trading days")
 };

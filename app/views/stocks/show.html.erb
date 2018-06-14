@@ -10,23 +10,28 @@
       <%= content_tag :div, "", id: "chart", data: { prices: @prices } %>
     </div>
 
+    <!--dtable data will change-->
     <div class="col-xs-12 col-md-4 col-md-offset-2">
       <table class="table table-striped" style="margin-top: 86px;">
         <thead>
           <tr>
             <th colspan="1"></th>
-            <th>Price</th>
-            <th>Growth</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Open</th>
+            <th>Close</th>
             <th>Date</th>
           </tr>
         </thead>
         <tbody>
-          <% @prices.each do |pr| %>
+          <% @prices.each do |price| %>
             <tr>
               <td colspan="1"></td>
-              <td><%= pr.price %></td>
-              <td><%= pr.growth ||= "no data" %></td>
-              <td><%= pr.date %></td>
+              <td><%= price.high %></td>
+              <td><%= price.low %></td>
+              <td><%= price.open %></td>
+              <td><%= price.close %></td>
+              <td><%= price.date %></td>
             </tr>
           <% end %>
         </tbody>

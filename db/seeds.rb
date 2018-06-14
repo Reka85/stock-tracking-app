@@ -3,7 +3,7 @@
 
 Price.destroy_all
 Stock.destroy_all
-ExchangeDate.destroy_all
+
 
 p "calling api"
 
@@ -33,20 +33,10 @@ end
 
 p "stocks created"
 
-p "creating dates"
 
 #returns the stock's daily high, low, open, close price of the last month
 chart_data = StockQuote::Stock.batch("chart", stocks_names, "1m")
 
-if chart_data.first.response_code == 200 && !chart_data.first.chart.empty?
-  chart_data.first.chart.each do |day|
-    date = ExchangeDate.new(date: day["date"])
-    date.save!
-  end
-else
-  p "Exchange dates could not be created. Error code: #{chart_data.first.response_code}"
-end
-p "dates created"
 
 p "creating prices"
 chart_data.each do |month|
@@ -55,8 +45,8 @@ chart_data.each do |month|
       price = Price.new(high: day["high"],
                         low: day["low"],
                         open: day["open"],
-                        close: day["close"])
-      price.exchange_date = ExchangeDate.where(date: day["date"])[0]
+                        close: day["close"],
+                        date: day["date"])
       price.stock = Stock.where(ticker: month.symbol)[0]
       price.save!
     end
